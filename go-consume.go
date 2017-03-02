@@ -2,7 +2,6 @@ package main
 
 import (
 	"github.com/bsm/sarama-cluster"
-	"log"
 	"os"
 	"os/signal"
 	"fmt"
@@ -41,7 +40,7 @@ func init() {
 
 func main() {
 	defer f.Close()
-	modules.Lc(modules.Lnc).Infoln("Another log line")
+	modules.Lc(modules.Lnc).Infoln("With context")
 	modules.Lnc.Infoln("Without context")
 	//l(lentry).Infoln("Another test log")
 	configFile := flag.String("configfile", "/etc/go-sub.conf", "Path to the config file")
@@ -51,18 +50,11 @@ func main() {
 
 	modules.Logger.Level = logrus.Level(parsedConfig.Daemon.Loglevel)
 	modules.Lc(modules.Lnc).Debugln("Another log line")
-/*
-	modules.Lc.Debugln("Debug with Context")
-	modules.Lnc.Debugln("Debug without Context")
-	modules.Lnc.Errorln("Error without Context")
-	modules.Lc.Errorln("Error with Context")
-	modules.Lnc.Warnln("Warn without Context")
-	modules.Lc.Warnln("Warn without Context")
-*/
+
 	config := cluster.NewConfig()
 	config.Consumer.Offsets.Initial = sarama.OffsetOldest
 	config.Consumer.Return.Errors = true
-	config.Consumer.Offsets.CommitInterval = 1 * time.Nanosecond
+	config.Consumer.Offsets.CommitInterval = 1 * time.Millisecond
 	config.Group.Return.Notifications = true
 	//brokers := []string{"172.19.85.78:9092","172.19.40.17:9092","172.19.1.188:9092"}
 	//topics := []string{ "graphite-AutoOpt", "rsyslog"}
@@ -75,11 +67,6 @@ func main() {
 		panic(err)
 	}
 
-	go func() {
-		for note := range consumer.Notifications() {
-			log.Printf("Rebalanced: %+v\n", note)
-		}
-	}()
 
 	signals := make(chan os.Signal, 1)
 	signal.Notify(signals, os.Interrupt)
@@ -96,7 +83,7 @@ func main() {
 		case errormessage := <- consumer.Errors():
 			fmt.Fprintf(os.Stderr, "%s\n", errormessage)
 		case notificationmessage := <- consumer.Notifications():
-			fmt.Println("Rebalancing", notificationmessage.Claimed, notificationmessage.Current, notificationmessage.Released)
+			modules.Lnc.Infoln("Rebalancing", notificationmessage.Claimed, notificationmessage.Current, notificationmessage.Released)
 		case <-signals:
 			return
 		}
