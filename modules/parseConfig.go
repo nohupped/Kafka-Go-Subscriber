@@ -24,7 +24,10 @@ func ParseConfig(path string) *Config {
 	daemonSection, _ := cfg.GetSection("daemon")
 	loglevel, err := daemonSection.GetKey("loglevel")
 	Err(err)
-	config.Daemon.Loglevel = uint8(loglevel.MustUint(2))
+	config.Daemon.Loglevel = loglevel.MustInt(2)
+	logfile, err := daemonSection.GetKey("logfile")
+	Err(err)
+	config.Daemon.Logfile = logfile.MustString("/var/log/kafka-go-sub.log")
 
 
 	return config

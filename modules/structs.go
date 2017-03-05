@@ -1,5 +1,7 @@
 package modules
 
+import "fmt"
+
 type Config struct {
 	// Kafka section from config file.
 	Kafka kafka
@@ -15,5 +17,12 @@ type kafka struct {
 	Groupid string
 }
 type daemon struct {
-	Loglevel uint8
+	Loglevel int
+	Logfile string
+}
+
+
+
+func (c Config)String()  string{
+	return fmt.Sprintf("%#v\n", c)
 }
