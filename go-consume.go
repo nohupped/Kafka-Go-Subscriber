@@ -52,6 +52,9 @@ func main() {
 	config.Group.Return.Notifications = true
 	consumer, err := cluster.NewConsumer(parsedConfig.Kafka.Brokers, parsedConfig.Kafka.Groupid,
 		parsedConfig.Kafka.Topics, config)
+	if err != nil {
+		panic(err)
+	}
 
 	// Start plugins.
 	for _, i := range parsedConfig.EnablePlugin.PluginsEnabled {
@@ -66,9 +69,7 @@ func main() {
 
 
 
-	if err != nil {
-		panic(err)
-	}
+
 
 	for {
 		select {
