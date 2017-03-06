@@ -7,11 +7,16 @@ type Config struct {
 	Kafka kafka
 	// Daemon section from config file.
 	Daemon daemon
+	// EnablePlugins contain a list of plugins that are configured to run. A goroutine will spin up
+	// for each enabled plugin.
+	EnablePlugin enablePlugin
 	// PluginMaps holds a map of topics to its corresponding plugin to process the topics's messages.
 	PluginMaps pluginMaps
 }
 
-
+type enablePlugin struct {
+	PluginsEnabled []string
+}
 
 type kafka struct {
 	Brokers []string
@@ -29,7 +34,8 @@ type pluginMaps struct {
 }
 
 
-func (c Config)String()  string{
+func (c Config)String()  string {
 	return fmt.Sprintf("%#v\n", c)
 }
+
 

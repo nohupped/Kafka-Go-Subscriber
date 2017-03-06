@@ -36,7 +36,11 @@ func ParseConfig(path string) *Config {
 	pluginSection, err := cfg.GetSection("plugins")
 	Err(err)
 
-	for _, i := range config.Kafka.Topics {
+	enabledPlugins, err := pluginSection.GetKey("enabledplugins")
+	config.EnablePlugin.PluginsEnabled = enabledPlugins.Strings(",")
+
+
+/*	for _, i := range config.Kafka.Topics {
 
 		pmap := make(map[string]string)
 		plugin, err := pluginSection.GetKey(i)
@@ -44,7 +48,7 @@ func ParseConfig(path string) *Config {
 
 		pmap[i] = plugin.String()
 		config.PluginMaps.TopicsToPluginMap = append(config.PluginMaps.TopicsToPluginMap, pmap)
-	}
+	}*/
 
 
 	return config

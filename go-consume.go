@@ -33,7 +33,7 @@ func main() {
 	modules.Logger.Infoln("Loaded config files with the following values", parsedConfig.String())
 
 	MessagesSyslogChan := make(chan *sarama.ConsumerMessage, parsedConfig.Daemon.MessageBuffer)
-
+	// Close channels for all plugins inside the below closure.
 	go func() {
 		for ; ;  {
 			select {
@@ -53,10 +53,17 @@ func main() {
 	consumer, err := cluster.NewConsumer(parsedConfig.Kafka.Brokers, parsedConfig.Kafka.Groupid,
 		parsedConfig.Kafka.Topics, config)
 
-	// Start plugin syslog. Whatever topics that needs to be processed by this plugin must write to MessagesSyslogChan.
-	go func() {
-	plugins.PluginSyslog(MessagesSyslogChan, consumer)
-	}()
+	// Start plugins.
+	for _, i := range parsedConfig.EnablePlugin.PluginsEnabled {
+		switch i {
+		case "syslog":
+			go func() {
+				plugins.PluginSyslog(MessagesSyslogChan, consumer, modules.Logger)
+			}()
+			break
+		}
+	}
+
 
 
 	if err != nil {

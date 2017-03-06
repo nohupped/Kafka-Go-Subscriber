@@ -5,9 +5,12 @@ import (
 	"fmt"
 	"os"
 	"github.com/bsm/sarama-cluster"
+	log "github.com/nohupped/glog"
+
 )
 
-func PluginSyslog(messages chan *sarama.ConsumerMessage, consumer *cluster.Consumer) {
+func PluginSyslog(messages chan *sarama.ConsumerMessage, consumer *cluster.Consumer, logger *log.Logger) {
+	logger.Infoln("Started plugin syslog...")
 	for {
 		select {
 		case msg := <- messages:

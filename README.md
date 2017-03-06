@@ -10,10 +10,20 @@ Sample config file:
 loglevel = 3
 ; Logfile to where the daemon should log. Defaults to /var/log/kafka-go-sub.log.
 logfile = /var/log/kafka-go-sub.log
+MessageBuffer = 2048
+
+[plugins]
+; Add enabled plugins in coma separated list
+enabledplugins = syslog
+
+[pluginmap]
+
+syslog = { "rsyslog": "syslog", "graphite-AutoOpt": "syslog" }
 
 
 [Kafka]
 Brokers = "172.19.85.78:9092,172.19.40.17:9092,172.19.1.188:9092"
 topics = rsyslog, graphite-AutoOpt
 groupid = testrsyslog
+
 ```
