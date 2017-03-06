@@ -1,6 +1,8 @@
 package modules
 
-import "gopkg.in/ini.v1"
+import (
+	"gopkg.in/ini.v1"
+)
 
 func ParseConfig(path string) *Config {
 	config := new(Config)
@@ -28,6 +30,21 @@ func ParseConfig(path string) *Config {
 	logfile, err := daemonSection.GetKey("logfile")
 	Err(err)
 	config.Daemon.Logfile = logfile.MustString("/var/log/kafka-go-sub.log")
+	messageBuffer, err := daemonSection.GetKey("MessageBuffer")
+	config.Daemon.MessageBuffer = messageBuffer.MustInt(1024)
+	// Generate plugin configuration for each topic
+	pluginSection, err := cfg.GetSection("plugins")
+	Err(err)
+
+	for _, i := range config.Kafka.Topics {
+
+		pmap := make(map[string]string)
+		plugin, err := pluginSection.GetKey(i)
+		Err(err)
+
+		pmap[i] = plugin.String()
+		config.PluginMaps.TopicsToPluginMap = append(config.PluginMaps.TopicsToPluginMap, pmap)
+	}
 
 
 	return config

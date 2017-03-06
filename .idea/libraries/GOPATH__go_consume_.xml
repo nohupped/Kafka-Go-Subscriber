@@ -3,11 +3,11 @@
     <CLASSES>
       <root url="file://$PROJECT_DIR$/../testmd5" />
       <root url="file://$PROJECT_DIR$/../FAI" />
+      <root url="file://$PROJECT_DIR$/../qustn" />
       <root url="file://$PROJECT_DIR$/../Guillotine" />
       <root url="file://$PROJECT_DIR$/../Gossecer.bak" />
       <root url="file://$PROJECT_DIR$/../Ossecer" />
       <root url="file://$PROJECT_DIR$/../OldIdea" />
-      <root url="file://$PROJECT_DIR$/../GoLogger" />
       <root url="file://$PROJECT_DIR$/../gownloader" />
       <root url="file://$PROJECT_DIR$/../keydb" />
       <root url="file://$PROJECT_DIR$/../honnef.co" />
@@ -69,16 +69,18 @@
       <root url="file://$PROJECT_DIR$/../Gripwire" />
       <root url="file://$PROJECT_DIR$/../testGripWire" />
       <root url="file://$PROJECT_DIR$/../testmnt" />
+      <root url="file://$PROJECT_DIR$/../GoLogger" />
+      <root url="file://$PROJECT_DIR$/../glog" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
       <root url="file://$PROJECT_DIR$/../testmd5" />
       <root url="file://$PROJECT_DIR$/../FAI" />
+      <root url="file://$PROJECT_DIR$/../qustn" />
       <root url="file://$PROJECT_DIR$/../Guillotine" />
       <root url="file://$PROJECT_DIR$/../Gossecer.bak" />
       <root url="file://$PROJECT_DIR$/../Ossecer" />
       <root url="file://$PROJECT_DIR$/../OldIdea" />
-      <root url="file://$PROJECT_DIR$/../GoLogger" />
       <root url="file://$PROJECT_DIR$/../gownloader" />
       <root url="file://$PROJECT_DIR$/../keydb" />
       <root url="file://$PROJECT_DIR$/../honnef.co" />
@@ -140,8 +142,11 @@
       <root url="file://$PROJECT_DIR$/../Gripwire" />
       <root url="file://$PROJECT_DIR$/../testGripWire" />
       <root url="file://$PROJECT_DIR$/../testmnt" />
+      <root url="file://$PROJECT_DIR$/../GoLogger" />
+      <root url="file://$PROJECT_DIR$/../glog" />
     </SOURCES>
     <excluded>
+      <root url="file://$PROJECT_DIR$/plugins" />
       <root url="file://$PROJECT_DIR$/modules" />
       <root url="file://$PROJECT_DIR$" />
     </excluded>
