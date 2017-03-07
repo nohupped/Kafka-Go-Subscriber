@@ -10,8 +10,16 @@ type Config struct {
 	// EnablePlugins contain a list of plugins that are configured to run. A goroutine will spin up
 	// for each enabled plugin.
 	EnablePlugin enablePlugin
-	// PluginMaps holds a map of topics to its corresponding plugin to process the topics's messages.
-	PluginMaps pluginMaps
+
+	// PluginMap has
+	PluginMap pluginMap
+
+}
+
+type pluginMap struct {
+	Syslog struct{
+		TopicsToSyslog map[string]string
+	       }
 }
 
 type enablePlugin struct {
@@ -28,9 +36,6 @@ type daemon struct {
 	MessageBuffer int
 	Logfile string
 
-}
-type pluginMaps struct {
-	TopicsToPluginMap []map[string]string
 }
 
 

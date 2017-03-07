@@ -2,6 +2,8 @@ package modules
 
 import (
 	"gopkg.in/ini.v1"
+	"fmt"
+	"encoding/json"
 )
 
 func ParseConfig(path string) *Config {
@@ -38,6 +40,17 @@ func ParseConfig(path string) *Config {
 
 	enabledPlugins, err := pluginSection.GetKey("enabledplugins")
 	config.EnablePlugin.PluginsEnabled = enabledPlugins.Strings(",")
+
+	pluginMapSection, err := cfg.GetSection("pluginmap")
+	b := make(map[string]string)
+	for _, i := range pluginMapSection.Keys() {
+		fmt.Println(i.String())
+		err := json.Unmarshal([]byte(i.String()), &b)
+		Err(err)
+		config.PluginMap.Syslog.TopicsToSyslog = b
+	}
+
+	fmt.Println(config.PluginMap.Syslog.TopicsToSyslog)
 
 
 /*	for _, i := range config.Kafka.Topics {
