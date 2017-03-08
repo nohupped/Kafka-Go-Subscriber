@@ -53,7 +53,7 @@ func main() {
 		case "syslog":
 			wg.Add(1)
 			go func() {
-				plugins.PluginSyslog(MessagesSyslogChan, consumer, modules.Logger)
+				plugins.StartPluginSyslog(MessagesSyslogChan, consumer, modules.Logger)
 				wg.Done()
 			}()
 			break
