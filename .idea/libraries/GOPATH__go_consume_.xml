@@ -39,6 +39,7 @@
       <root url="file://$PROJECT_DIR$/../9fans.net" />
       <root url="file://$PROJECT_DIR$/../MyWebApp" />
       <root url="file://$PROJECT_DIR$/../gosyncmodules" />
+      <root url="file://$PROJECT_DIR$/../go-consume.bak" />
       <root url="file://$PROJECT_DIR$/../vault" />
       <root url="file://$PROJECT_DIR$/../Gnotify" />
       <root url="file://$PROJECT_DIR$/../sourcegraph.com" />
@@ -68,6 +69,7 @@
       <root url="file://$PROJECT_DIR$/../kafka-go-pub" />
       <root url="file://$PROJECT_DIR$/../Gripwire" />
       <root url="file://$PROJECT_DIR$/../testGripWire" />
+      <root url="file://$PROJECT_DIR$/../syslogConstructor" />
       <root url="file://$PROJECT_DIR$/../testmnt" />
       <root url="file://$PROJECT_DIR$/../GoLogger" />
       <root url="file://$PROJECT_DIR$/../glog" />
@@ -113,6 +115,7 @@
       <root url="file://$PROJECT_DIR$/../9fans.net" />
       <root url="file://$PROJECT_DIR$/../MyWebApp" />
       <root url="file://$PROJECT_DIR$/../gosyncmodules" />
+      <root url="file://$PROJECT_DIR$/../go-consume.bak" />
       <root url="file://$PROJECT_DIR$/../vault" />
       <root url="file://$PROJECT_DIR$/../Gnotify" />
       <root url="file://$PROJECT_DIR$/../sourcegraph.com" />
@@ -142,6 +145,7 @@
       <root url="file://$PROJECT_DIR$/../kafka-go-pub" />
       <root url="file://$PROJECT_DIR$/../Gripwire" />
       <root url="file://$PROJECT_DIR$/../testGripWire" />
+      <root url="file://$PROJECT_DIR$/../syslogConstructor" />
       <root url="file://$PROJECT_DIR$/../testmnt" />
       <root url="file://$PROJECT_DIR$/../GoLogger" />
       <root url="file://$PROJECT_DIR$/../glog" />
@@ -149,8 +153,8 @@
     </SOURCES>
     <excluded>
       <root url="file://$PROJECT_DIR$/plugins" />
-      <root url="file://$PROJECT_DIR$/modules" />
       <root url="file://$PROJECT_DIR$" />
+      <root url="file://$PROJECT_DIR$/modules" />
     </excluded>
   </library>
 </component>

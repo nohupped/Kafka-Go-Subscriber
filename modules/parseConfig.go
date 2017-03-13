@@ -50,19 +50,18 @@ func ParseConfig(path string) *Config {
 		config.PluginMap.Syslog.TopicsToSyslog = b
 	}
 
-	fmt.Println(config.PluginMap.Syslog.TopicsToSyslog)
 
+	// Plugin configs
 
-/*	for _, i := range config.Kafka.Topics {
-
-		pmap := make(map[string]string)
-		plugin, err := pluginSection.GetKey(i)
-		Err(err)
-
-		pmap[i] = plugin.String()
-		config.PluginMaps.TopicsToPluginMap = append(config.PluginMaps.TopicsToPluginMap, pmap)
-	}*/
-
+	syslogPluginSection, _ := cfg.GetSection("syslog")
+	syslogProtocol, err := syslogPluginSection.GetKey("syslog_send_protocol")
+	Err(err)
+	config.Syslog.SyslogSendProtocol = syslogProtocol.MustString("tcp")
+	syslogServerIPnPort, err := syslogPluginSection.GetKey("syslog_server_ip_port")
+	Err(err)
+	config.Syslog.SyslogServerIPnPort = syslogServerIPnPort.MustString("127.0.0.1:514")
+	syslogServerDialTimeout, err := syslogPluginSection.GetKey("syslog_server_dialtimeout")
+	config.Syslog.SyslogServerDialTimeout = syslogServerDialTimeout.MustInt(20)
 
 	return config
 

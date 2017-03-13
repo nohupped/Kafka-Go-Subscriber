@@ -14,6 +14,15 @@ type Config struct {
 	// PluginMap has
 	PluginMap pluginMap
 
+	// Plugin syslog configuration
+	Syslog syslog
+
+
+}
+
+type syslog struct {
+	SyslogSendProtocol, SyslogServerIPnPort string
+	SyslogServerDialTimeout                 int
 }
 
 type pluginMap struct {

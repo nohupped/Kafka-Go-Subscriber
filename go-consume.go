@@ -33,6 +33,7 @@ func main() {
 
 
 	config := cluster.NewConfig()
+	//config.Consumer.Offsets.Initial = sarama.OffsetNewest
 	config.Consumer.Offsets.Initial = sarama.OffsetOldest
 	config.Consumer.Return.Errors = true
 	config.Consumer.Offsets.CommitInterval = 1 * time.Millisecond
@@ -53,7 +54,8 @@ func main() {
 		case "syslog":
 			wg.Add(1)
 			go func() {
-				plugins.StartPluginSyslog(MessagesSyslogChan, consumer, modules.Logger)
+				plugins.StartPluginSyslog(MessagesSyslogChan, consumer, parsedConfig.Syslog.SyslogSendProtocol,
+				parsedConfig.Syslog.SyslogServerIPnPort, parsedConfig.Syslog.SyslogServerDialTimeout, modules.Logger)
 				wg.Done()
 			}()
 			break

@@ -23,11 +23,19 @@ syslog = { "rsyslog": "syslog", "graphite-AutoOpt": "Dummy" }
 
 [Kafka]
 Brokers = "172.19.85.78:9092,172.19.40.17:9092,172.19.1.188:9092"
-topics = rsyslog, graphite-AutoOpt
+; topics = rsyslog, graphite-AutoOpt
+topics = rsyslog
 ;  Change groupid to a new one to consume from starting again. The current 
 ; library doesn't provide a way to reset the offset to a lower value 
 ; than the current offset.
-groupid = testrsyslog
+groupid = testnewplugin3
+; plugin config
+
+[syslog]
+syslog_send_protocol = tcp
+syslog_server_ip_port = "172.24.40.36:514"
+syslog_server_dialtimeout = 10 ; in seconds
+
 
 
 ```

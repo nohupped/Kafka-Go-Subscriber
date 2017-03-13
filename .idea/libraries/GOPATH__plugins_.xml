@@ -1,5 +1,5 @@
 <component name="libraryTable">
-  <library name="GOPATH &lt;modules&gt;">
+  <library name="GOPATH &lt;plugins&gt;">
     <CLASSES>
       <root url="file://$PROJECT_DIR$/../testmd5" />
       <root url="file://$PROJECT_DIR$/../FAI" />

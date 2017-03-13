@@ -2,8 +2,7 @@ package plugins
 
 import (
 	"github.com/Shopify/sarama"
-	//"fmt"
-	//"os"
+
 	"github.com/bsm/sarama-cluster"
 	log "github.com/nohupped/glog"
 
@@ -11,45 +10,39 @@ import (
 	"net"
 	"bytes"
 
+//	"syslogConstructor"
+	"encoding/json"
 )
 
 // RFC syslog format: <13>2017-03-08T12:29:02.231335+00:00 openldap1 slapd[392]: slap_global_control: unrecognized control: 1.3.6.1.4.1.42.2.27.8.5.1
 // Construct a log of similar format IF it is just a file tail from syslog or similar logs.
-func StartPluginSyslog(messages chan *sarama.ConsumerMessage, consumer *cluster.Consumer, logger *log.Logger) {
+func StartPluginSyslog(messages chan *sarama.ConsumerMessage, consumer *cluster.Consumer, syslogProto, syslogServernPort string, dialtimeout int, logger *log.Logger) {
 	logger.Infoln("Started plugin syslog...")
 
-	DialSyslogServer("tcp", "172.19.116.144:514", time.Second * 10)
+	DialSyslogServer(syslogProto, syslogServernPort, time.Second * time.Duration(dialtimeout))
 	// Ranging over the channel messages.
 
 	Out:
 	for msg := range messages {
-		//fmt.Fprintf(os.Stdout, "From Plugin, %s/%d/%d\n\t%s\n\t%s\n", msg.Topic, msg.Partition, msg.Offset, msg.Key, msg.Value)
-		//strippedMsg := ParseSyslog(msg.Value)
+
 
 		parsedMsg := ParseSyslog(msg.Value)
+		//parsedMsg := syslogConstructor.ConstructSyslogFromByteArray(msg.Value, "\",\"offset\"")
 		var written int
 		var WriteError error
 		written, WriteError = conn.Write(parsedMsg)
 		if WriteError != nil {
-			DialSyslogServer("tcp", "172.19.116.144:514", time.Second * 10)
+			DialSyslogServer(syslogProto, syslogServernPort, time.Second * time.Duration(dialtimeout))
 			written, WriteError = conn.Write(parsedMsg)
 			if WriteError != nil {
-				logger.Errorln("Cannor write message to socket, re-connection failed, plugin syslog dying...")
+				logger.Errorln("Cannot write message to socket, re-connection failed, plugin syslog dying...")
 				break Out
 			}
 		}
-		//if strippedMsg != nil {
-		//	written, err := conn.Write(strippedMsg)
 
-		//	if err != nil {
-		//		panic(err)
-		//	}
-		//	fmt.Println("Written", written, "bytes")
-
-		//}
-//		fmt.Println(string(strippedMsg))
 		consumer.MarkOffset(msg, "")
 		logger.Debugln(written, "bytes written for the message", string(parsedMsg), "and marked consumer offset")
+		//logger.Debugln(written, "bytes written for the message", parsedMsg, "and marked consumer offset")
 
 	}
 	// Once the consumer is closed upon receiving an interrupt, the range over the channel will be finished, and the below wg.Done
@@ -73,18 +66,14 @@ func DialSyslogServer(proto, ipAndPort string, timeout time.Duration)  {
 func ParseSyslog(msg []byte) []byte{
 	buff := new(bytes.Buffer)
 	buff.WriteString("<13>")
-	buff.Write(msg)
-	return buff.Bytes()
-//	data := make(map[string]interface{})
-//	fmt.Println(string(msg))
-	/*err := json.Unmarshal(msg, &data)
+	data := make(map[string]interface{})
+	err := json.Unmarshal(msg, &data)
 	if err != nil {
 		panic(err)
 	}
-	//fmt.Println(data)
-	buff.Write([]byte(data["message"].(string)))
-	fmt.Println(buff.String())
-	*/
+	buff.WriteString(data["message"].(string))
+	buff.WriteString("\n")
+	return buff.Bytes()
 
 
 }
