@@ -89,10 +89,11 @@ func StartPluginSyslog(messages chan *sarama.ConsumerMessage, consumer *cluster.
 			var WriteError error
 			written, WriteError = conn.Write(parsedMsg)
 			if WriteError != nil {
+				logger.Errorln("Error", WriteError, "encountered when writing", parsedMsg, "to socket, redialling...")
 				DialSyslogServer(syslogProto, syslogServernPort, time.Second * time.Duration(dialtimeout))
 				written, WriteError = conn.Write(parsedMsg)
 				if WriteError != nil {
-					logger.Errorln("Cannot write message to socket, re-connection failed, plugin syslog dying...")
+					logger.Errorln("Error encountered", WriteError, "Cannot write message to socket, re-connection failed, plugin syslog dying...")
 					break OutTrue
 				}
 			}
