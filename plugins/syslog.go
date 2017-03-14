@@ -56,11 +56,11 @@ func StartPluginSyslog(messages chan *sarama.ConsumerMessage, consumer *cluster.
 
 
 	case true:
-		logger.Infoln("OffsetLogging is enabled and will be reported every", offsetLoggingInterval[0], "minutes..")
+		logger.Infoln("OffsetLogging is enabled and will be reported every", offsetLoggingInterval[0], "minutes once the consumer queue is read..")
 		var offset int64
 		offset = -1
 		go func() {
-			time.Sleep(time.Second * 5) // a dirty way to enable offset to be set by consumer before logging.
+			time.Sleep(time.Second * 5) // Adding a delay to logging
 			var previousOffset int64
 			previousOffset = -1
 
