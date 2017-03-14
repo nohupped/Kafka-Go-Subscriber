@@ -55,7 +55,8 @@ func main() {
 			wg.Add(1)
 			go func() {
 				plugins.StartPluginSyslog(MessagesSyslogChan, consumer, parsedConfig.Syslog.SyslogSendProtocol,
-				parsedConfig.Syslog.SyslogServerIPnPort, parsedConfig.Syslog.SyslogServerDialTimeout, modules.Logger)
+				parsedConfig.Syslog.SyslogServerIPnPort, parsedConfig.Syslog.SyslogServerDialTimeout, modules.Logger,
+				parsedConfig.Syslog.OffsetLogging, parsedConfig.Syslog.OffsetLoggingInterval)
 				wg.Done()
 			}()
 			break

@@ -62,6 +62,12 @@ func ParseConfig(path string) *Config {
 	config.Syslog.SyslogServerIPnPort = syslogServerIPnPort.MustString("127.0.0.1:514")
 	syslogServerDialTimeout, err := syslogPluginSection.GetKey("syslog_server_dialtimeout")
 	config.Syslog.SyslogServerDialTimeout = syslogServerDialTimeout.MustInt(20)
+	enableOffsetLogging, err := syslogPluginSection.GetKey("enable_offset_logging")
+	Err(err)
+	config.Syslog.OffsetLogging = enableOffsetLogging.MustBool(false)
+	offsetLoggingTime, err := syslogPluginSection.GetKey("offset_Logging_Interval")
+	Err(err)
+	config.Syslog.OffsetLoggingInterval = offsetLoggingTime.MustInt(1)
 
 	return config
 

@@ -23,6 +23,8 @@ type Config struct {
 type syslog struct {
 	SyslogSendProtocol, SyslogServerIPnPort string
 	SyslogServerDialTimeout                 int
+	OffsetLogging                           bool
+	OffsetLoggingInterval                   int
 }
 
 type pluginMap struct {
