@@ -26,7 +26,11 @@ func StartPluginSyslog(messages chan *sarama.ConsumerMessage, consumer *cluster.
 	for msg := range messages {
 
 
-		parsedMsg := ParseSyslog(msg.Value)
+		parsedMsg := ParseSyslog(msg.Value, logger)
+		if parsedMsg == nil {
+			logger.Errorln("Parsing returned nil for message", string(msg.Value), "at offset", msg.Offset, "for partition", msg.Partition, "on topic", msg.Topic, "Timestamp:", msg.Timestamp)
+			continue
+		}
 		//parsedMsg := syslogConstructor.ConstructSyslogFromByteArray(msg.Value, "\",\"offset\"")
 		var written int
 		var WriteError error
@@ -63,13 +67,14 @@ func DialSyslogServer(proto, ipAndPort string, timeout time.Duration)  {
 }
 
 
-func ParseSyslog(msg []byte) []byte{
+func ParseSyslog(msg []byte, logger *log.Logger) []byte{
 	buff := new(bytes.Buffer)
 	buff.WriteString("<13>")
 	data := make(map[string]interface{})
 	err := json.Unmarshal(msg, &data)
 	if err != nil {
-		panic(err)
+		logger.Errorln("Error when processing", string(msg), err)
+		return nil
 	}
 	buff.WriteString(data["message"].(string))
 	buff.WriteString("\n")
