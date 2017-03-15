@@ -89,7 +89,7 @@ func StartPluginSyslog(messages chan *sarama.ConsumerMessage, consumer *cluster.
 			var WriteError error
 			written, WriteError = conn.Write(parsedMsg)
 			if WriteError != nil {
-				logger.Errorln("Error", WriteError, "encountered when writing", parsedMsg, "to socket, redialling...")
+				logger.Errorln("Error", WriteError, "encountered when writing", string(parsedMsg), "to socket, redialling...")
 				DialSyslogServer(syslogProto, syslogServernPort, time.Second * time.Duration(dialtimeout))
 				written, WriteError = conn.Write(parsedMsg)
 				if WriteError != nil {
