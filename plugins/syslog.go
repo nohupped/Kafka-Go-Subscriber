@@ -20,8 +20,8 @@ func StartPluginSyslog(messages chan *sarama.ConsumerMessage, consumer *cluster.
 			syslogServernPort string, dialtimeout int, logger *log.Logger, enableOffsetLogging bool, offsetLoggingInterval ...int) {
 	logger.Infoln("Started plugin syslog...")
 
-	var lastconsumedmessage []byte
-	var lastconsumedoffset int64
+//	var lastconsumedmessage []byte
+//	var lastconsumedoffset int64
 	// has to handle rsyslog daemon restarts during logrotates, which can cause a "connection reset by peer" error.
 	DialSyslogServer(syslogProto, syslogServernPort, time.Second * time.Duration(dialtimeout), logger)
 
@@ -54,8 +54,8 @@ func StartPluginSyslog(messages chan *sarama.ConsumerMessage, consumer *cluster.
 			}
 
 			consumer.MarkOffset(msg, "")
-			lastconsumedmessage = msg.Value
-			lastconsumedoffset = msg.Offset
+//			lastconsumedmessage = msg.Value
+//			lastconsumedoffset = msg.Offset
 			logger.Debugln(written, "bytes written for the message", string(parsedMsg), "and marked consumer offset")
 			//logger.Debugln(written, "bytes written for the message", parsedMsg, "and marked consumer offset")
 
@@ -110,8 +110,8 @@ func StartPluginSyslog(messages chan *sarama.ConsumerMessage, consumer *cluster.
 			offset = msg.Offset
 
 			consumer.MarkOffset(msg, "")
-			lastconsumedmessage = msg.Value
-			lastconsumedoffset = msg.Offset
+//			lastconsumedmessage = msg.Value
+//			lastconsumedoffset = msg.Offset
 			logger.Debugln(written, "bytes written for the message", string(parsedMsg), "and marked consumer offset")
 			//logger.Debugln(written, "bytes written for the message", parsedMsg, "and marked consumer offset")
 		}
@@ -121,8 +121,8 @@ func StartPluginSyslog(messages chan *sarama.ConsumerMessage, consumer *cluster.
 	// Once the consumer is closed upon receiving an interrupt, the range over the channel will be finished, and the below wg.Done
 	// will decrement the waitgroup. This will make sure that the main
 	logger.Infoln("Range over syslog channel exited because the channel was closed from elsewhere. Shutting down syslog plugin in 5 seconds ..")
-	logger.Infoln("Last consumed message:", string(lastconsumedmessage))
-	logger.Infoln("Last consumed offset:", lastconsumedoffset)
+//	logger.Infoln("Last consumed message:", string(lastconsumedmessage))
+//	logger.Infoln("Last consumed offset:", lastconsumedoffset)
 	logger.Infoln("Last committed offset may be of earlier offset than the consumed offset..")
 	for i := 5; i >=0; i -- {
 		logger.Infoln(i)
