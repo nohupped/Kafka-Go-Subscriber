@@ -18,12 +18,12 @@ enabledplugins = syslog
 
 [pluginmap]
 ; Provide a json mapping.
-syslog = { "rsyslog": "syslog", "graphite-AutoOpt": "Dummy" }
+syslog = { "rsyslog": "syslog", "someothertopic": "Dummy" }
 
 
 [Kafka]
-Brokers = "172.19.85.78:9092,172.19.40.17:9092,172.19.1.188:9092"
-; topics = rsyslog, graphite-AutoOpt
+Brokers = "broker1:9092,broker2:9092,broker3:9092"
+; topics = rsyslog, someothertopic
 topics = rsyslog
 ;  Change groupid to a new one to consume from starting again. The current 
 ; library doesn't provide a way to reset the offset to a lower value 
@@ -33,7 +33,7 @@ groupid = testnewplugin12
 
 [syslog]
 syslog_send_protocol = tcp
-syslog_server_ip_port = "172.24.40.36:514"
+syslog_server_ip_port = "rsyslogserver:514"
 syslog_server_dialtimeout = 10 ; in seconds
 enable_offset_logging = true ; disable for minor performance improvements
 offset_Logging_interval = 1 ; in minutes
